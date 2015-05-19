@@ -1,10 +1,10 @@
-IMAGE=mcandre/docker-debian:8
+IMAGE=mcandre/docker-debian:7
 ROOTFS=rootfs.tar.gz
 define GENERATE
 apt-get update && \
 apt-get install -y debootstrap && \
 mkdir /chroot && \
-debootstrap jessie /chroot && \
+debootstrap wheezy /chroot && \
 cd /chroot && \
 tar czvf /mnt/rootfs.tar.gz .
 endef
