@@ -12,21 +12,23 @@ https://registry.hub.docker.com/u/mcandre/docker-debian/
 
 ```
 $ make
-docker run --rm --privileged -v $(pwd):/mnt -t debian:sid sh -c 'apt-get update && apt-get install -y debootstrap && mkdir /chroot && debootstrap sid /chroot && cd /chroot && tar czvf /mnt/rootfs.tar.gz .'
+docker run --rm --privileged -v $(pwd):/mnt -t debian:sid sh -c 'apt-get update && apt-get install -y debootstrap && mkdir /chroot && debootstrap jessie /chroot && cd /chroot && tar czvf /mnt/rootfs.tar.gz .'
 ...
 
-docker build -t mcandre/docker-debian:sid .
+docker build -t mcandre/docker-debian:8 .
 Step 0 : FROM scratch
 Step 1 : MAINTAINER Andrew Pennebaker <andrew.pennebaker@gmail.com>
 Step 2 : ADD rootfs.tar.gz /
-Successfully built 5ac6b04a4424
+Successfully built d0deb6761199
 
-docker run -it mcandre/docker-debian:sid sh -c 'cat /etc/*release*'
-PRETTY_NAME="Debian GNU/Linux stretch/sid"
+docker run --rm mcandre/docker-debian:8 sh -c 'cat /etc/*release*'
+PRETTY_NAME="Debian GNU/Linux 8 (jessie)"
 NAME="Debian GNU/Linux"
+VERSION_ID="8"
+VERSION="8 (jessie)"
 ID=debian
-HOME_URL="https://www.debian.org/"
-SUPPORT_URL="https://www.debian.org/support/"
+HOME_URL="http://www.debian.org/"
+SUPPORT_URL="http://www.debian.org/support/"
 BUG_REPORT_URL="https://bugs.debian.org/"
 ```
 
