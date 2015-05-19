@@ -1,10 +1,10 @@
-IMAGE=mcandre/docker-debian:6
+IMAGE=mcandre/docker-debian:5
 ROOTFS=rootfs.tar.gz
 define GENERATE
 apt-get update && \
 apt-get install -y debootstrap && \
 mkdir /chroot && \
-debootstrap squeeze /chroot && \
+debootstrap lenny /chroot http://archive.debian.org/debian && \
 cd /chroot && \
 tar czvf /mnt/rootfs.tar.gz .
 endef
@@ -12,7 +12,7 @@ endef
 all: run
 
 $(ROOTFS):
-	docker run --rm --privileged -v $$(pwd):/mnt -t debian:jessie sh -c '$(GENERATE)'
+	docker run --rm --privileged -v $$(pwd):/mnt -t debian:squeeze sh -c '$(GENERATE)'
 
 build: Dockerfile $(ROOTFS)
 	docker build -t $(IMAGE) .
