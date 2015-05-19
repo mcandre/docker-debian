@@ -1,0 +1,29 @@
+diff --git a/functions b/functions
+index b84ce5b..64824b2 100644
+--- a/functions
++++ b/functions
+@@ -561,9 +561,9 @@ setup_etc () {
+ }
+ 
+ setup_proc () {
+-  on_exit "umount $TARGET/dev/pts || true"
+-  on_exit "umount $TARGET/dev/shm || true"
+-  on_exit "umount $TARGET/proc/bus/usb || true"
++  on_exit "(umount $TARGET/dev/pts) || true"
++  on_exit "(umount $TARGET/dev/shm) || true"
++  on_exit "(umount $TARGET/proc/bus/usb) || true"
+   on_exit "umount $TARGET/proc"
+   umount $TARGET/proc 2>/dev/null || true
+   in_target mount -t proc proc /proc
+diff --git a/scripts/woody b/scripts/woody
+index 75f4443..765acf0 100644
+--- a/scripts/woody
++++ b/scripts/woody
+@@ -90,6 +90,7 @@ install_debs () {
+     mkdir -p "$TARGET/var/lib/dpkg"
+     : >"$TARGET/var/lib/dpkg/status"
+     : >"$TARGET/var/lib/dpkg/available"
++    echo >"$TARGET/var/lib/dpkg/available"
+ 
+     setup_etc
+     if [ ! -e "$TARGET/etc/fstab" ]; then

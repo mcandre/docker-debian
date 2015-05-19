@@ -12,17 +12,18 @@ https://registry.hub.docker.com/u/mcandre/docker-debian/
 
 ```
 $ make
-docker run --rm --privileged -v $(pwd):/mnt -t mcandre/docker-debian:etch sh -c 'apt-get update && apt-get install -y debootstrap && mkdir /chroot && debootstrap --arch i386 sarge /chroot http://archive.debian.org/debian && cd /chroot && tar czvf /mnt/rootfs.tar.gz .'
+docker run --rm --privileged -v $(pwd):/mnt -t mcandre/docker-debian:sarge sh -c 'apt-get update && apt-get install -y debootstrap patch && cd /usr/lib/debootstrap && patch --verbose -p1 -i /mnt/fix-debootstrap.patch && mkdir /chroot && debootstrap --arch i386 woody /chroot http://archive.debian.org/debian && cd /chroot && tar czvf /mnt/rootfs.tar.gz .'
 ...
 
-docker build -t mcandre/docker-debian:3.1 .
+docker build -t mcandre/docker-debian:3.0 .
 Step 0 : FROM scratch
 Step 1 : MAINTAINER Andrew Pennebaker <andrew.pennebaker@gmail.com>
 Step 2 : ADD rootfs.tar.gz /
-Successfully built cc6f05c890bc
+Successfully built 44d8a34d79a1
 
-docker run --rm mcandre/docker-debian:3.1 sh -c 'cat /etc/*version*'
-3.1
+docker run --rm mcandre/docker-debian:3.0 sh -c 'cat /etc/*version* && apt-get update | head -n 1'
+3.0
+Get:1 http://archive.debian.org woody/main Packages [1773kB]
 ```
 
 # REQUIREMENTS

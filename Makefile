@@ -1,24 +1,27 @@
-IMAGE=mcandre/docker-debian:3.1
+IMAGE=mcandre/docker-debian:3.0
 ROOTFS=rootfs.tar.gz
 define GENERATE
 apt-get update && \
-apt-get install -y debootstrap && \
+apt-get install -y debootstrap patch && \
+cd /usr/lib/debootstrap && \
+patch --verbose -p1 -i /mnt/fix-debootstrap.patch && \
 mkdir /chroot && \
-debootstrap --arch i386 sarge /chroot http://archive.debian.org/debian && \
+debootstrap --arch i386 woody /chroot http://archive.debian.org/debian && \
 cd /chroot && \
+cp /mnt/sources.list etc/apt/sources.list && \
 tar czvf /mnt/rootfs.tar.gz .
 endef
 
 all: run
 
 $(ROOTFS):
-	docker run --rm --privileged -v $$(pwd):/mnt -t mcandre/docker-debian:etch sh -c '$(GENERATE)'
+	docker run --rm --privileged -v $$(pwd):/mnt -t mcandre/docker-debian:sarge sh -c '$(GENERATE)'
 
 build: Dockerfile $(ROOTFS)
 	docker build -t $(IMAGE) .
 
 run: clean-containers build
-	docker run --rm $(IMAGE) sh -c 'cat /etc/*version*'
+	docker run --rm $(IMAGE) sh -c 'cat /etc/*version* && apt-get update | head -n 1'
 
 clean-containers:
 	-docker ps -a | grep -v IMAGE | awk '{ print $$1 }' | xargs docker rm -f
