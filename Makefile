@@ -1,12 +1,11 @@
-IMAGE=mcandre/docker-debian:3.0
+IMAGE=mcandre/docker-debian:2.2
 ROOTFS=rootfs.tar.gz
 define GENERATE
+export DEBIAN_FRONTEND=noninteractive && \
 apt-get update && \
-apt-get install -y debootstrap patch && \
-cd /usr/lib/debootstrap && \
-patch --verbose -p1 -i /mnt/fix-debootstrap.patch && \
+apt-get install -y debootstrap && \
 mkdir /chroot && \
-debootstrap --arch i386 woody /chroot http://archive.debian.org/debian && \
+debootstrap --arch i386 potato /chroot http://archive.debian.org/debian && \
 cd /chroot && \
 cp /mnt/sources.list etc/apt/sources.list && \
 tar czvf /mnt/rootfs.tar.gz .
@@ -15,7 +14,7 @@ endef
 all: run
 
 $(ROOTFS):
-	docker run --rm --privileged -v $$(pwd):/mnt -t mcandre/docker-debian:sarge sh -c '$(GENERATE)'
+	docker run --rm --privileged -v $$(pwd):/mnt mcandre/docker-debian:woody sh -c '$(GENERATE)'
 
 build: Dockerfile $(ROOTFS)
 	docker build -t $(IMAGE) .
