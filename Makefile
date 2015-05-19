@@ -1,10 +1,10 @@
-IMAGE=mcandre/docker-debian:sid
+IMAGE=mcandre/docker-debian:8
 ROOTFS=rootfs.tar.gz
 define GENERATE
 apt-get update && \
 apt-get install -y debootstrap && \
 mkdir /chroot && \
-debootstrap sid /chroot && \
+debootstrap jessie /chroot && \
 cd /chroot && \
 tar czvf /mnt/rootfs.tar.gz .
 endef
