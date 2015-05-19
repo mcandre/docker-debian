@@ -12,17 +12,17 @@ https://registry.hub.docker.com/u/mcandre/docker-debian/
 
 ```
 $ make
-docker run --rm --privileged -v $(pwd):/mnt -t debian:wheezy sh -c 'apt-get update && apt-get install -y debootstrap && mkdir /chroot && debootstrap lenny /chroot http://archive.debian.org/debian && cd /chroot && tar czvf /mnt/rootfs.tar.gz .'
+docker run --rm --privileged -v $(pwd):/mnt -t mcandre/docker-debian:lenny sh -c 'apt-get update && apt-get install -y debootstrap && mkdir /chroot && debootstrap etch /chroot http://archive.debian.org/debian && cd /chroot && tar czvf /mnt/rootfs.tar.gz .'
 ...
 
-docker build -t mcandre/docker-debian:5 .
+docker build -t mcandre/docker-debian:4 .
 Step 0 : FROM scratch
 Step 1 : MAINTAINER Andrew Pennebaker <andrew.pennebaker@gmail.com>
 Step 2 : ADD rootfs.tar.gz /
-Successfully built 0f43748d96d9
+Successfully built 68e218728477
 
-docker run --rm mcandre/docker-debian:5 sh -c 'cat /etc/*version*'
-5.0.10
+docker run --rm mcandre/docker-debian:4 sh -c 'cat /etc/*version*'
+4.0
 ```
 
 # REQUIREMENTS
