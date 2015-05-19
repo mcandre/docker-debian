@@ -12,25 +12,17 @@ https://registry.hub.docker.com/u/mcandre/docker-debian/
 
 ```
 $ make
-docker run --rm --privileged -v $(pwd):/mnt -t debian:sid sh -c 'apt-get update && apt-get install -y debootstrap && mkdir /chroot && debootstrap wheezy /chroot && cd /chroot && tar czvf /mnt/rootfs.tar.gz .'
+docker run --rm --privileged -v $(pwd):/mnt -t debian:wheezy sh -c 'apt-get update && apt-get install -y debootstrap && mkdir /chroot && debootstrap squeeze /chroot && cd /chroot && tar czvf /mnt/rootfs.tar.gz .'
 ...
 
-docker build -t mcandre/docker-debian:7 .
+docker build -t mcandre/docker-debian:6 .
 Step 0 : FROM scratch
 Step 1 : MAINTAINER Andrew Pennebaker <andrew.pennebaker@gmail.com>
 Step 2 : ADD rootfs.tar.gz /
-Successfully built d0deb6761199
+Successfully built ed4a5b5bb313
 
-docker run -it mcandre/docker-debian:7 sh -c 'cat /etc/*release*'
-PRETTY_NAME="Debian GNU/Linux 7 (wheezy)"
-NAME="Debian GNU/Linux"
-VERSION_ID="7"
-VERSION="7 (wheezy)"
-ID=debian
-ANSI_COLOR="1;31"
-HOME_URL="http://www.debian.org/"
-SUPPORT_URL="http://www.debian.org/support/"
-BUG_REPORT_URL="http://bugs.debian.org/"
+docker run --rm mcandre/docker-debian:6 sh -c 'cat /etc/*version*'
+6.0.10
 ```
 
 # REQUIREMENTS
