@@ -1,1 +1,2 @@
-deb http://archive.debian.org/debian-archive/debian slink main
+deb http://archive.debian.org/debian/ slink main non-free contrib
+deb-src http://archive.debian.org/debian/ slink main non-free contrib
