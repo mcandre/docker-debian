@@ -12,18 +12,17 @@ https://registry.hub.docker.com/u/mcandre/docker-debian/
 
 ```
 $ make
-docker run --rm --privileged -v $(pwd):/mnt -t mcandre/docker-debian:woody sh -c 'apt-get update && apt-get install -y debootstrap && mkdir /chroot && debootstrap --arch i386 slink /chroot http://archive.debian.org/debian && cd /chroot && tar czvf /mnt/rootfs.tar.gz .'
+docker run --rm --privileged -v $(pwd):/mnt -t mcandre/docker-debian:woody sh -c 'apt-get update && apt-get install -y debootstrap && mkdir /chroot && debootstrap --arch i386 hamm /chroot http://archive.debian.org/debian && cd /chroot && tar czvf /mnt/rootfs.tar.gz .'
 ...
 
-docker build -t mcandre/docker-debian:2.1 .
+docker build -t mcandre/docker-debian:2.0 .
 Step 0 : FROM scratch
 Step 1 : MAINTAINER Andrew Pennebaker <andrew.pennebaker@gmail.com>
 Step 2 : ADD rootfs.tar.gz /
 Successfully built 1538246b2baa
 
-docker run --rm mcandre/docker-debian:2.1 sh -c 'cat /etc/*version* && apt-get update | head -n 1'
-2.1
-Get:1 http://archive.debian.org slink/main Packages [493kB]
+docker run --rm mcandre/docker-debian:2.0 sh -c 'cat /etc/*version* && apt-get update | head -n 1'
+...
 ```
 
 # REQUIREMENTS
