@@ -1,11 +1,11 @@
-IMAGE=mcandre/docker-debian:2.2
+IMAGE=mcandre/docker-debian:2.1
 ROOTFS=rootfs.tar.gz
 define GENERATE
 export DEBIAN_FRONTEND=noninteractive && \
 apt-get update && \
 apt-get install -y debootstrap && \
 mkdir /chroot && \
-debootstrap --arch i386 potato /chroot http://archive.debian.org/debian && \
+debootstrap --arch i386 slink /chroot http://archive.debian.org/debian && \
 cd /chroot && \
 cp /mnt/sources.list etc/apt/sources.list && \
 tar czvf /mnt/rootfs.tar.gz .
