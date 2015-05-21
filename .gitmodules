@@ -1,0 +1,3 @@
+[submodule "debian-bo"]
+	path = debian-bo
+	url = https://github.com/rdebath/debian-bo

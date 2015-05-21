@@ -18,12 +18,13 @@ https://registry.hub.docker.com/u/mcandre/docker-debian/
 $ make
 ...
 Serving VNC at localhost:5900 ...
-Welcome to Debian GNU/Linux 2.0!
+Welcome to Debian GNU/Linux 1.3!
 ```
 
 # REQUIREMENTS
 
 * [Docker](https://www.docker.com/)
+* [jigdo](http://atterer.org/jigdo/)
 
 ## Optional
 
@@ -33,13 +34,13 @@ Welcome to Debian GNU/Linux 2.0!
 ## Debian/Ubuntu
 
 ```
-$ sudo apt-get install docker.io vino build-essential
+$ sudo apt-get install docker.io jigdo-file vino build-essential
 ```
 
 ## RedHat/Fedora/CentOS
 
 ```
-$ sudo yum install docker-io vino
+$ sudo yum install docker-io jigdo-file vino
 ```
 
 ## non-Linux
@@ -57,13 +58,14 @@ $ sudo yum install docker-io vino
 
 ```
 $ brew cask install virtualbox vagrant tigervnc
-$ brew install boot2docker
+$ brew install boot2docker jigdo
 ```
 
 ### Windows
 
 * [Chocolatey](https://chocolatey.org/)
 * [TightVNC](http://www.tightvnc.com/)
+* [jigdo for Windows](http://atterer.org/sites/atterer/files/2009-08/jigdo/jigdo-win-0.7.2.zip)
 
 ```
 > chocolatey install docker tightvnc make
