@@ -1,26 +1,13 @@
-IMAGE=mcandre/docker-debian:2.0
-ROOTFS=rootfs.tar.gz
-define GENERATE
-export DEBIAN_FRONTEND=noninteractive && \
-apt-get update && \
-apt-get install -y debootstrap && \
-mkdir /chroot && \
-debootstrap --arch i386 hamm /chroot http://archive.debian.org/debian && \
-cd /chroot && \
-cp /mnt/sources.list etc/apt/sources.list && \
-tar czvf /mnt/rootfs.tar.gz .
-endef
+ISO=debian-2.0r0-i386-binary-1.iso
 
 all: run
 
-$(ROOTFS):
-	docker run --rm --privileged -v $$(pwd):/mnt mcandre/docker-debian:woody sh -c '$(GENERATE)'
+$(ISO):
+	wget http://mirror.debianforum.de/debian-iso-archive/hamm/i386/debian-2.0r0-i386-binary-1.iso
 
-build: Dockerfile $(ROOTFS)
-	docker build -t $(IMAGE) .
-
-run: clean-containers build
-	docker run --rm $(IMAGE) sh -c 'cat /etc/*version* && apt-get update | head -n 1'
+run: clean-containers $(ISO)
+	echo "Serving VNC at $$(boot2docker ip):5900 ..."
+	docker run --rm --privileged -it -v $$(pwd):/mnt -e QEMU_CDROM=/mnt/$(ISO) -p 5900:5900 -p 22:2222 $(IMAGE)
 
 clean-containers:
 	-docker ps -a | grep -v IMAGE | awk '{ print $$1 }' | xargs docker rm -f
@@ -31,10 +18,4 @@ clean-images:
 clean-layers:
 	-docker images | grep -v IMAGE | grep none | awk '{ print $$3 }' | xargs docker rmi -f
 
-clean-rootfs:
-	-rm $(ROOTFS)
-
-clean: clean-containers clean-images clean-layers clean-rootfs
-
-publish:
-	docker push $(IMAGE)
+clean: clean-containers clean-images clean-layers
