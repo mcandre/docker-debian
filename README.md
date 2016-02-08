@@ -37,6 +37,7 @@ BUG_REPORT_URL="https://bugs.debian.org/"
 ## Optional
 
 * [make](http://www.gnu.org/software/make/)
+* [Node.js](https://nodejs.org/en/) (for dockerlint)
 
 ## Debian/Ubuntu
 
